@@ -1,0 +1,32 @@
+
+<project name="FirefoxPrint" default="package">
+
+	<property name="xpidl" value="c:\\mozilla\\moztools\\bin\\xpidl.exe"/>
+	
+	<target name="package">
+		<apply executable="${xpidl}" dir="${basedir}/components" dest="${basedir}/components">
+			<mapper type="glob" from="*.idl" to="*.xpt"/>
+			<fileset dir="${basedir}/components" includes="*.idl"/>
+			<arg line="-m typelib -w -v"/>
+			<arg value="-I"/>
+			<arg value="c:\\mozilla\\mozilla\\xpcom\\base"/>
+			<arg value="-I"/>
+			<arg value="c:\\mozilla\\mozilla\\rdf\\base\\idl"/>
+			<arg value="-I"/>
+			<arg value="c:\\mozilla\\mozilla\\dom\\public\\idl\\base"/>
+			<arg value="-I"/>
+			<arg value="c:\\mozilla\\mozilla\\xpcom\\ds"/>
+		</apply>
+			
+		<zip destfile="${basedir}/FirefoxPrint.xpi">
+			<fileset dir="${basedir}">
+				<include name="**/*"/>
+				<exclude name="components/*.idl"/>
+				<exclude name="FirefoxPrint.xpi"/>
+				<exclude name="build.xml"/>
+				<exclude name=".*"/>
+			</fileset>
+		</zip>
+	</target>
+	
+</project>
